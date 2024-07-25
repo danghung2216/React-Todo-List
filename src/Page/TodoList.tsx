@@ -7,18 +7,16 @@ interface ITodoItem {
   description: string;
   completed: boolean;
 }
-interface INewtodoItem {
-  newTodoItem: ITodoItem[];
-}
+
 const TodoList = () => {
   // const [title, setTitle] = useState([]);
   const [newTitle, setNewTitle] = useState("");
   // const [description, setDescription] = useState([]);
   const [newDescription, setNewDescription] = useState("");
-  const [allTodos, setAllTodos] = useState([]);
-  const [stateDone, setStateDone] = useState(false);
+  const [allTodos, setAllTodos] = useState<ITodoItem[]>([]);
+
   const handleAddTodo = () => {
-    let newTodoItem: INewtodoItem[] = {
+    let newTodoItem: ITodoItem = {
       title: newTitle,
       description: newDescription,
       completed: false,
@@ -42,8 +40,15 @@ const TodoList = () => {
   };
   const handleMarkCompleted = (index: number) => {
     let updatedTodos = [...allTodos];
-    updatedTodos[index].completed = !updatedTodos[index].completed;
-    setAllTodos(updatedTodos);
+    // updatedTodos[index].completed = !updatedTodos[index].completed;
+
+    if ((updatedTodos[index].completed = !updatedTodos[index].completed)) {
+      updatedTodos.unshift(allTodos[index]);
+      updatedTodos.splice(index + 1, 1);
+      setAllTodos(updatedTodos);
+    }
+
+    // setAllTodos(updatedTodos);
   };
   return (
     <Fragment>
